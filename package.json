@@ -1,0 +1,25 @@
+{
+  "author": "",
+  "bundleDependencies": false,
+  "deprecated": false,
+  "description": "Laravel Jwt Auth Package",
+  "license": "ISC",
+  "main": "index.js",
+  "name": "laravel-auth",
+  "dependencies": {
+    "pseudomap": "^1.0.2",
+    "yallist": "^2.1.2"
+  },
+  "files": [
+    "index.js"
+  ],
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:shellus/laravel-auth.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "version": "1.0.2"
+}
