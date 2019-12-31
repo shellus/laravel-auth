@@ -4,11 +4,10 @@
   "deprecated": false,
   "description": "Laravel Jwt Auth Package",
   "license": "ISC",
-  "main": "index.js",
   "name": "laravel-auth",
   "dependencies": {
-    "pseudomap": "^1.0.2",
-    "yallist": "^2.1.2"
+    "element-ui": "^2.4.4",
+    "axios": "^0.18.0"
   },
   "files": [
     "index.js"
