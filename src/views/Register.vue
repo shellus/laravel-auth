@@ -1,6 +1,6 @@
 <template>
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
+    <div class="el-row">
+        <div class="el-col-md-8 el-col-md-offset-8 el-col-xs-24">
 
             <el-card class="box-card">
                 <div slot="header" class="clearfix">
@@ -10,10 +10,10 @@
                 <el-form v-loading="loading" @submit.native.prevent="submit" :model="form" class="form-horizontal"
                          role="form" method="POST"
                          label-width="80px">
-                    <el-form-item label="用户名">
-                        <el-input id="name" type="text" name="name" v-model="form.name" required
-                                  autofocus></el-input>
-                    </el-form-item>
+<!--                    <el-form-item label="用户名">-->
+<!--                        <el-input id="name" type="text" name="name" v-model="form.name" required-->
+<!--                                  autofocus></el-input>-->
+<!--                    </el-form-item>-->
                     <el-form-item label="E-Mail">
                         <el-input id="email" type="email" name="email" v-model="form.email" required
                                   ></el-input>

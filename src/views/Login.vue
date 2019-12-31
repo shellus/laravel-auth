@@ -25,10 +25,9 @@
                         <el-button type="primary" native-type="submit">登录</el-button>
                         <div style="display: inline-block;width: 30px;"></div>
                         <el-link type="" @click="forgotPassword">忘记密码</el-link>
+                        <div style="display: inline-block;width: 30px;"></div>
+                        <el-link type="" @click="register">注册</el-link>
                     </el-form-item>
-
-
-
                 </el-form>
             </el-card>
         </div>
@@ -77,6 +76,10 @@
             forgotPassword()
             {
                 this.$router.push({name: 'forgot_password'})
+            },
+            register()
+            {
+                this.$router.push({name: 'register'})
             }
         },
     }

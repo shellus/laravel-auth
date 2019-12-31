@@ -24,7 +24,7 @@ export default (function () {
         authAfters.map(call => call())
     };
 
-    let _defaultErrorHandle = function(e){
+    let _defaultErrorHandle = function (e) {
         alert(e.message)
     }
 
@@ -80,7 +80,7 @@ export default (function () {
         // 认证数据，说白了就是有token后
         // 这个和loginAfter不同的是多了页面刷新后从localStore取出token后
         authAfter: function (call) {
-            logoutAfters.push(call)
+            authAfters.push(call)
         },
 
         // 内部调用：触发有认证数据事件
@@ -115,19 +115,19 @@ export default (function () {
             }
             // 刷新token
             try {
-                return new Promise((resolve, reject)=>{
+                return new Promise((resolve, reject) => {
                     // 第一次刷新
-                    if (!_refreshTokenPromise){
+                    if (!_refreshTokenPromise) {
                         _refreshTokenPromise = _refreshToken();
                         _refreshTokenPromise
-                            .then((data)=>{
+                            .then((data) => {
                                 _storeAuthData(data);
                             })
                             .catch(reject)
-                            .finally(()=>_refreshTokenPromise = null);
+                            .finally(() => _refreshTokenPromise = null);
                     }
                     // 后面的刷新直接只等结果，别的都不做
-                    _refreshTokenPromise.then((data)=>{
+                    _refreshTokenPromise.then((data) => {
                         resolve(data.access_token);
                     });
                 });
@@ -169,7 +169,9 @@ export default (function () {
             }
         },
         // 内部页面调用的
-        _callLoginAfter:_callLoginAfter,
+        _callLoginAfter: _callLoginAfter,
+        _callLogoutAfter: _callLogoutAfter,
+        _clearAuthData: _clearAuthData,
 
         // 认证过程中的错误处理， 默认使用alert弹出，可以覆盖这个成员实现异常自定义处理
         httpErrorHandle: _defaultErrorHandle,

@@ -1,6 +1,6 @@
 <template>
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
+    <div class="el-row">
+        <div class="el-col-md-8 el-col-md-offset-8 el-col-xs-24">
 
             <el-card class="box-card">
                 <div slot="header" class="clearfix">
