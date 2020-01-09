@@ -170,6 +170,7 @@ export default (function () {
         },
         // 内部页面调用的
         _callLoginAfter: _callLoginAfter,
+        _callAuthAfter: _callAuthAfter,
         _callLogoutAfter: _callLogoutAfter,
         _clearAuthData: _clearAuthData,
 

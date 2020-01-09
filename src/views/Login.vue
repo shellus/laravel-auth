@@ -64,6 +64,7 @@
                             duration: 1000,
                             type: 'success',
                             onClose: () => {
+                                auth._callAuthAfter();
                                 auth._callLoginAfter();
                             },
                         });
