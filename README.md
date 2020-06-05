@@ -37,7 +37,15 @@ laravel jwt 对接laravel后端的扩展
            auth.restoreAuthData();
        }
    };
-
+   
+   ```
+  在 `App.vue` 的 `created` 方法中添加，添加在这里是因为只有Vue示例中才能访问到$router
+  ```javascript
+   // 注销后跳转到登录页面
+   // 两种情况，一个是后端返回无权限，一个是点击注销按钮（调用注销api）
+   auth.logoutAfter(() => {
+       this.$router.push({name:'login'})
+   });
    ```
    在 `router.js` 中添加
    ```javascript
