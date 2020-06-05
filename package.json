@@ -1,5 +1,5 @@
 {
-  "author": "",
+  "author": "shellus",
   "bundleDependencies": false,
   "deprecated": false,
   "description": "Laravel Jwt Auth Package",
@@ -17,5 +17,5 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "version": "1.0.6"
+  "version": "1.0.7"
 }

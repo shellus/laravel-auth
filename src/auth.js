@@ -38,18 +38,6 @@ export default (function () {
             localStorage.roles = JSON.stringify(data.roles);
         }
     };
-    // 刷新token，返回刷新后的token
-    let _refreshToken = async function () {
-        try {
-            let config = {headers: {Authorization: `Bearer ${localStorage.token}`}};
-            let response = await axios.post('/api/refresh', {}, config);
-            return response.data;
-        } catch (e) {
-            if (e.response.status === 401) {
-                throw new Error('无权限');
-            }
-        }
-    };
     // 删除认证凭证，可能是手动退出登录，
     // 或者是服务器认为凭证无效，所以本地就删掉无效凭证
     let _clearAuthData = function () {
@@ -103,6 +91,17 @@ export default (function () {
                 return JSON.parse(localStorage.roles);
             else return null;
         },
+        // 刷新token，返回刷新后的token
+        async refreshToken() {
+            let response;
+            let config = {headers: {Authorization: `Bearer ${localStorage.token}`}};
+            try {
+                response = await axios.post('/api/refresh', {}, config);
+            } catch (e) {
+                this.httpErrorHandle(e)
+            }
+            return response.data;
+        },
         // 获取token
         // 如果检测到token过期，会请求刷新token并醍醐按本地记录的token
         // 如果刷新失败，会进入注销流程，清除本地凭证、触发注销事件
@@ -118,7 +117,7 @@ export default (function () {
                 return new Promise((resolve, reject) => {
                     // 第一次刷新
                     if (!_refreshTokenPromise) {
-                        _refreshTokenPromise = _refreshToken();
+                        _refreshTokenPromise = this.refreshToken();
                         _refreshTokenPromise
                             .then((data) => {
                                 _storeAuthData(data);
@@ -152,7 +151,11 @@ export default (function () {
         // 然后触发登录成功回调
         async login(credentials) {
             let response;
-            response = await axios.post('/api/login', credentials);
+            try {
+                response = await axios.post('/api/login', credentials);
+            } catch (e) {
+                this.httpErrorHandle(e)
+            }
             _storeAuthData(response.data);
         },
         // 用户主动退出登录状态
@@ -161,6 +164,8 @@ export default (function () {
         async logout() {
             try {
                 await axios.post('/api/logout', {}, {headers: {Authorization: `Bearer ${localStorage.token}`}})
+            } catch (e) {
+                this.httpErrorHandle(e)
             } finally {
                 // 删除认证凭证
                 _clearAuthData();
