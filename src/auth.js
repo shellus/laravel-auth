@@ -33,6 +33,7 @@ export default (function () {
     let _storeAuthData = function (data) {
         localStorage.expiresTimestamp = (new Date()).getTime() + (data.expires_in * 1000);
         localStorage.token = data.access_token;
+        localStorage.client_code = data.client_code;
         localStorage.user = JSON.stringify(data.user);
         if (data.roles) {
             localStorage.roles = JSON.stringify(data.roles);
@@ -49,7 +50,7 @@ export default (function () {
 
     let _refreshTokenPromise;
 
-    let instance = {
+    return {
 
         /**
          * 注册登陆后回调
@@ -96,9 +97,10 @@ export default (function () {
             let response;
             let config = {headers: {Authorization: `Bearer ${localStorage.token}`}};
             try {
-                response = await axios.post('/api/refresh', {}, config);
+                response = await axios.post('/api/refresh', {client_code: localStorage.client_code}, config);
             } catch (e) {
                 this.httpErrorHandle(e)
+                throw e
             }
             return response.data;
         },
@@ -150,11 +152,14 @@ export default (function () {
         // 并且保存用户数据
         // 然后触发登录成功回调
         async login(credentials) {
+            let postData = JSON.parse(JSON.stringify(credentials));
             let response;
+            postData.client_code = localStorage.client_code;
             try {
-                response = await axios.post('/api/login', credentials);
+                response = await axios.post('/api/login', postData);
             } catch (e) {
                 this.httpErrorHandle(e)
+                throw e
             }
             _storeAuthData(response.data);
         },
@@ -166,6 +171,7 @@ export default (function () {
                 await axios.post('/api/logout', {}, {headers: {Authorization: `Bearer ${localStorage.token}`}})
             } catch (e) {
                 this.httpErrorHandle(e)
+                throw e
             } finally {
                 // 删除认证凭证
                 _clearAuthData();
@@ -182,5 +188,4 @@ export default (function () {
         // 认证过程中的错误处理， 默认使用alert弹出，可以覆盖这个成员实现异常自定义处理
         httpErrorHandle: _defaultErrorHandle,
     };
-    return instance;
 })()
