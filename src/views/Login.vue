@@ -49,30 +49,32 @@
             };
         },
         methods: {
-            submit: function (event) {
+            async submit (event) {
 
                 // 修复ios chrome自动填充不响应的问题
                 this.form.email = event.target.querySelector("[name=email]").value;
                 this.form.password = event.target.querySelector("[name=password]").value;
 
                 this.loading = true;
-                auth.login(this.form)
-                    .then(() => {
-                        this.$message({
-                            message: "登录成功, 1秒后自动跳转到首页",
-                            showClose: true,
-                            duration: 1000,
-                            type: 'success',
-                            onClose: () => {
-                                auth._callAuthAfter();
-                                auth._callLoginAfter();
-                            },
-                        });
-                    })
-                    .catch(auth.httpErrorHandle)
-                    .finally(() => {
-                        this.loading = false;
-                    });
+                try {
+                    await auth.login(this.form);
+                } catch (e) {
+                    auth.httpErrorHandle(e);
+                    return
+                } finally {
+                    this.loading = false;
+                }
+
+                this.$message({
+                    message: "登录成功, 1秒后自动跳转到首页",
+                    showClose: true,
+                    duration: 1000,
+                    type: 'success',
+                    onClose: () => {
+                        auth._callAuthAfter();
+                        auth._callLoginAfter();
+                    },
+                });
             },
             forgotPassword()
             {

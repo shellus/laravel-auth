@@ -14,9 +14,11 @@
 <!--                        <el-input id="name" type="text" name="name" v-model="form.name" required-->
 <!--                                  autofocus></el-input>-->
 <!--                    </el-form-item>-->
+                    <el-form-item label="用户名">
+                        <el-input id="name" name="name" v-model="form.name" required></el-input>
+                    </el-form-item>
                     <el-form-item label="E-Mail">
-                        <el-input id="email" type="email" name="email" v-model="form.email" required
-                                  ></el-input>
+                        <el-input id="email" type="email" name="email" v-model="form.email" required></el-input>
                     </el-form-item>
 
                     <el-form-item label="密码">
@@ -47,6 +49,7 @@
         data: () => {
             return {
                 form: {
+                    name: "",
                     email: "",
                     password: "",
                     confirm_password: "",
@@ -58,6 +61,7 @@
             submit: function (event) {
 
                 // 修复ios chrome自动填充不响应的问题
+                this.form.name = event.target.querySelector("[name=name]").value;
                 this.form.email = event.target.querySelector("[name=email]").value;
                 this.form.password = event.target.querySelector("[name=password]").value;
 

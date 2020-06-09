@@ -155,12 +155,7 @@ export default (function () {
             let postData = JSON.parse(JSON.stringify(credentials));
             let response;
             postData.client_code = localStorage.client_code;
-            try {
-                response = await axios.post('/api/login', postData);
-            } catch (e) {
-                this.httpErrorHandle(e)
-                throw e
-            }
+            response = await axios.post('/api/login', postData);
             _storeAuthData(response.data);
         },
         // 用户主动退出登录状态
